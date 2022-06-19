@@ -4,6 +4,8 @@
 
 (def VERSION "0.0.1")
 
+(set! js/VERSION VERSION)
+
 (rf/reg-sub :app-state
   (fn [app-state] app-state))
 
