@@ -18,6 +18,7 @@ jobs:
         run: npm install -g shadow-cljs & npm install react
       - name: Compile frontend
         run: shadow-cljs release app
+        
   Build-backend:
     needs: [Build-frontend]
     runs-on: ubuntu-latest
@@ -27,15 +28,18 @@ jobs:
         run: lein deps
       - name: Compile backend
         run: lein uberjar
+        
   Deploy-to-heroku:
     needs: [Build-backend]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "clojure-clock-fullstack-app"
-          heroku_email: "ekochetkov.work@gmail.com"
+          node-version: '14'
+      - name: Install heroku-cli and deps
+        run: npm install -g heroku && heroku plugins:install java
       - name: Deploy to Heroku
+        env:
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
         run: heroku deploy:jar target\foo-0.0.1-SNAPSHOT-standalone.jar --app clojure-clock-fullstack-app
