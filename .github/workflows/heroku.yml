@@ -49,6 +49,8 @@ jobs:
         with:
           name: foo.jar
           path: foo.jar
+      - run: pwd
+      - run: ls -lah
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
