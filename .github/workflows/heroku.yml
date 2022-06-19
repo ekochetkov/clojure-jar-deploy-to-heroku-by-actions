@@ -49,15 +49,15 @@ jobs:
         with:
           name: foo.jar
           path: foo.jar
-      - run: pwd
-      - run: ls -lah
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
       - name: Install Heroku-cli and deps
         run: npm install -g heroku && heroku plugins:install java
+      - run: pwd
+      - run: ls -lah
       - name: Deploy to Heroku
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-        run: heroku deploy:jar foo.jar --app clojure-clock-fullstack-app
+        run: heroku deploy:jar ./foo.jar --app clojure-clock-fullstack-app
