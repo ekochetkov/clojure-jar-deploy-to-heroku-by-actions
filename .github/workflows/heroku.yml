@@ -14,8 +14,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
-      - name: Install shadow-cljs
-        run: npm install -g shadow-cljs
+      - name: Install shadow-cljs and deps
+        run: npm install -g shadow-cljs & npm install react
       - name: Compile frontend
         run: shadow-cljs release app
   Build-backend:
