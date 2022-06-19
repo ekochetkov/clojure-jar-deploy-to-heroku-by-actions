@@ -27,13 +27,13 @@ jobs:
     needs: [Build-frontend]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: lein deps
       - uses: actions/download-artifact@master
         with:
           name: main.js
           path: resources/public/js/main.js
-      - uses: actions/checkout@v3
-      - name: Install dependencies
-        run: lein deps
       - name: Compile backend
         run: lein uberjar
       - uses: actions/upload-artifact@master
@@ -45,19 +45,19 @@ jobs:
     needs: [Build-backend]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@master
-        with:
-          name: foo.jar
-          path: foo.jar
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
       - name: Install Heroku-cli and deps
         run: npm install -g heroku && heroku plugins:install java
+      - uses: actions/download-artifact@master
+        with:
+          name: foo.jar
+          path: foo.jar
       - run: pwd
       - run: ls -lah
       - name: Deploy to Heroku
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-        run: heroku deploy:jar ./foo.jar --app clojure-clock-fullstack-app
+        run: heroku deploy:jar foo.jar --app clojure-clock-fullstack-app
