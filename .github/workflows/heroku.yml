@@ -17,7 +17,7 @@ jobs:
       - name: Install shadow-cljs
         run: npm install -g shadow-cljs
       - name: Compile frontend
-      - run: shadow-cljs release app
+        run: shadow-cljs release app
   Build-backend:
     needs: [Build-frontend]
     runs-on: ubuntu-latest
@@ -38,4 +38,4 @@ jobs:
           heroku_app_name: "clojure-clock-fullstack-app"
           heroku_email: "ekochetkov.work@gmail.com"
       - name: Deploy to Heroku
-      - run: heroku deploy:jar target\foo-0.0.1-SNAPSHOT-standalone.jar --app clojure-clock-fullstack-app
+        run: heroku deploy:jar target\foo-0.0.1-SNAPSHOT-standalone.jar --app clojure-clock-fullstack-app
