@@ -2,6 +2,8 @@
   (:require [re-frame.core :as rf]
             [reagent.dom :as rdom]))
 
+(def VERSION "0.0.1")
+
 (rf/reg-sub :app-state
   (fn [app-state] app-state))
 
